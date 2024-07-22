@@ -10,7 +10,10 @@ endpoint_id=$(aws ec2 describe-client-vpn-endpoints --filters "Name=tag:Name,Val
 
 aws ec2 export-client-vpn-client-configuration --client-vpn-endpoint-id $endpoint_id --output text > $store_path/$vpn_name.ovpn
 
-nmcli connection delete $vpn_name
+# openvpn doesnt handle systemd-resolved well, so i went down that route
+if nmcli c s id $vpn_name > /dev/null 2>&1; then
+	nmcli connection delete $vpn_name
+fi
 nmcli connection import type openvpn file $store_path/$vpn_name.ovpn
 nmcli connection modify $vpn_name +vpn.data cert=$client_cert
 nmcli connection modify $vpn_name +vpn.data key=$client_key
