@@ -6,11 +6,11 @@ NAME=$1
 aws dynamodb create-table \
     --table-name $NAME \
     --attribute-definitions \
-        AttributeName=TFLock,AttributeType=S \
+        AttributeName=LockID,AttributeType=S \
     --key-schema \
-        AttributeName=TFLock,KeyType=HASH \
+        AttributeName=LockID,KeyType=HASH \
     --provisioned-throughput \
-        ReadCapacityUnits=5,WriteCapacityUnits=5
+        ReadCapacityUnits=20,WriteCapacityUnits=20
 
 TEMPLATE_FILE=$(mktemp)
 
