@@ -3,14 +3,15 @@
 
 NAME=$1
 
-aws dynamodb create-table \
-    --table-name $NAME \
-    --attribute-definitions \
-        AttributeName=LockID,AttributeType=S \
-    --key-schema \
-        AttributeName=LockID,KeyType=HASH \
-    --provisioned-throughput \
-        ReadCapacityUnits=20,WriteCapacityUnits=20
+# Following block is only needed for state locking
+#aws dynamodb create-table \
+#    --table-name $NAME \
+#    --attribute-definitions \
+#        AttributeName=LockID,AttributeType=S \
+#    --key-schema \
+#        AttributeName=LockID,KeyType=HASH \
+#    --provisioned-throughput \
+#        ReadCapacityUnits=20,WriteCapacityUnits=20
 
 TEMPLATE_FILE=$(mktemp)
 
